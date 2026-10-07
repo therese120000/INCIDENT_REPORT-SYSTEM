@@ -1,0 +1,115 @@
+CREATE TABLE incident_types (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE incident_reports (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_number VARCHAR(30) UNIQUE NOT NULL,
+    user_id INTEGER NOT NULL,
+    incident_type_id INTEGER NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    location VARCHAR(255) NOT NULL,
+    purok VARCHAR(100) NOT NULL,
+    water_level VARCHAR(30),
+    severity VARCHAR(20),
+    status VARCHAR(30) NOT NULL DEFAULT 'SUBMITTED',
+    assigned_admin_id INTEGER,
+    submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    acknowledged_at DATETIME,
+    resolved_at DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (incident_type_id) REFERENCES incident_types(id),
+    FOREIGN KEY (assigned_admin_id) REFERENCES users(id)
+);
+
+CREATE TABLE incident_report_updates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    status VARCHAR(30) NOT NULL,
+    message TEXT,
+    action_taken TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (report_id) REFERENCES incident_reports(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE incident_report_attachments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id INTEGER NOT NULL,
+    uploaded_by INTEGER NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    file_type VARCHAR(50),
+    attachment_type VARCHAR(30) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (report_id) REFERENCES incident_reports(id),
+    FOREIGN KEY (uploaded_by) REFERENCES users(id)
+);
+
+CREATE TABLE notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    report_id INTEGER NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(30) NOT NULL,
+    is_read BOOLEAN NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (report_id) REFERENCES incident_reports(id)
+);
+
+CREATE TABLE email_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(30) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    sent_at DATETIME,
+
+    FOREIGN KEY (report_id) REFERENCES incident_reports(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE sms_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    contact_number TEXT NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(30) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    sent_at DATETIME,
+
+    FOREIGN KEY (report_id) REFERENCES incident_reports(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NULL,
+    contact_number VARCHAR(30),
+    address VARCHAR(255),
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'LOCAL',
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
