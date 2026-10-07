@@ -105,8 +105,7 @@ $(function () {
                     );
 
                 $('#modalReportSubmittedAt')
-                    .text(
-                        report.submitted_at || '-'
+                    .text(formatDateOnly(report.submitted_at || '-')
                     );
 
 

@@ -218,7 +218,7 @@
             </section>
         </main>
     </div>
-
+    <script src="{{ asset('js/utility.js') }}"></script>
     <script src="{{ asset('js/local-toggle.js') }}"></script>
     <script src="{{ asset('js/local-dashboard.js')}}"></script>
     <script src="{{ asset('js/local-history.js')}}"></script>

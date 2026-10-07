@@ -24,11 +24,13 @@ $(function(){
 
                 if (response.success) {
 
-                    alert(
-                        'Report submitted successfully.\n\n' +
-                        'Report Number: ' +
-                        response.report_number
-                    );
+                    // alert(
+                    //     'Report submitted successfully.\n\n' +
+                    //     'Report Number: ' +
+                    //     response.report_number
+                    // );
+
+                    showMsg("success", 'Report submitted successfully.');
 
                     form.reset();
 
@@ -50,14 +52,18 @@ $(function(){
 
                     });
 
-                    alert(message);
+                    // alert(message);
+                    showMsg("error", message);
 
                 } else {
 
-                    alert(
-                        xhr.responseJSON?.message ||
-                        'Unable to submit report.'
-                    );
+                    // alert(
+                    //     xhr.responseJSON?.message ||
+                    //     'Unable to submit report.'
+                    // );
+                    
+                    showMsg("error", xhr.responseJSON?.message ||
+                        'Unable to submit report.');
                 }
             }
         });

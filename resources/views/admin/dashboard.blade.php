@@ -377,7 +377,7 @@
         </main>
     </div>
 
-
+    <script src="{{ asset('js/utility.js') }}"></script>
     <script src="{{ asset('js/admin-toggle.js') }}"></script>
     <script src="{{ asset('js/alert.js')}}"></script>
     <script src="{{ asset('js/notifications.js') }}"></script>
