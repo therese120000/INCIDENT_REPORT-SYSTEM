@@ -73,11 +73,6 @@ $(function () {
                 date.includes(searchValue) ||
                 status.includes(searchValue);
 
-
-            // const issueMatch =
-            //     issueValue === '' ||
-            //     issue === issueValue;
-
             const issueMatch =
                 issueValue === '' ||
                 issue.includes(issueValue);
@@ -139,8 +134,4 @@ $(function () {
 
         }
     );
-
-
-    
-
 });

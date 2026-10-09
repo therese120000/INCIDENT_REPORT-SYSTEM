@@ -1,11 +1,4 @@
 $(function () {
-
-    /*
-    =========================================================
-    OPEN USER DETAILS
-    =========================================================
-    */
-
     $(document).on('click', '.user-view-btn', function () {
 
         const userId = $(this).data('id');
@@ -65,13 +58,6 @@ $(function () {
                     user.status || 'ACTIVE'
                 );
 
-
-                /*
-                =========================================================
-                ADMIN PASSWORD
-                =========================================================
-                */
-
                 if (
                     user.role &&
                     user.role.toUpperCase() === 'ADMIN'
@@ -106,13 +92,6 @@ $(function () {
 
     });
 
-
-    /*
-    =========================================================
-    CLOSE MODAL
-    =========================================================
-    */
-
     $('#closeUserDetailsModal, #cancelUserDetails').on(
         'click',
         function () {
@@ -122,12 +101,6 @@ $(function () {
         }
     );
 
-
-    /*
-    =========================================================
-    UPDATE USER
-    =========================================================
-    */
 
     $('#userDetailsForm').on('submit', function (e) {
 
@@ -181,11 +154,6 @@ $(function () {
                 );
 
                 $('#userDetailsModal').fadeOut(200);
-
-                /*
-                Refresh the users section so the
-                updated values appear in the table.
-                */
 
                 $('.content-area').load(
                     '/admin/users'
@@ -293,12 +261,6 @@ $(document).on('input', '#userSearch', function () {
 
 });
 
-/*
-=========================================================
-OPEN ADD USER MODAL
-=========================================================
-*/
-
 $(document).on('click', '#add-new-user-btn', function () {
 
     $('#addUserForm')[0].reset();
@@ -306,13 +268,6 @@ $(document).on('click', '#add-new-user-btn', function () {
     $('#addUserModal').fadeIn(200);
 
 });
-
-
-/*
-=========================================================
-CLOSE ADD USER MODAL
-=========================================================
-*/
 
 $(document).on(
     'click',
@@ -323,13 +278,6 @@ $(document).on(
 
     }
 );
-
-
-/*
-=========================================================
-SHOW / HIDE ADD USER PASSWORD
-=========================================================
-*/
 
 $(document).on(
     'change',
@@ -350,13 +298,6 @@ $(document).on(
 
     }
 );
-
-
-/*
-=========================================================
-ADD USER
-=========================================================
-*/
 
 $(document).on(
     'submit',
@@ -416,9 +357,6 @@ $(document).on(
                 $('#addUserModal')
                     .fadeOut(200);
 
-                /*
-                Reload users table
-                */
 
                 $('.content-area').load(
                     '/admin/users'

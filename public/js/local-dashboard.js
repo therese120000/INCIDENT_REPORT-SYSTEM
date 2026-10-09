@@ -9,18 +9,11 @@ function loadDashboardData() {
             console.log('Dashboard data:', response);
 
 
-            // =========================================
-            // USER
-            // =========================================
 
             $('.user-info strong').text(
                 response.user.name
             );
 
-
-            // =========================================
-            // STATISTICS
-            // =========================================
 
             $('#totalReports').text(
                 response.statistics.total
@@ -39,9 +32,6 @@ function loadDashboardData() {
             );
 
 
-            // =========================================
-            // RECENT REPORTS
-            // =========================================
 
             loadRecentReports(
                 response.week.reports

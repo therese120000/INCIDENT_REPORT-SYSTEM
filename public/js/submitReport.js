@@ -1,5 +1,5 @@
-$(function(){
-    $('#incidentReportForm').on('submit', function(e) {
+$(function () {
+    $('#incidentReportForm').on('submit', function (e) {
 
         e.preventDefault();
 
@@ -20,15 +20,9 @@ $(function(){
                     $('meta[name="csrf-token"]').attr('content')
             },
 
-            success: function(response) {
+            success: function (response) {
 
                 if (response.success) {
-
-                    // alert(
-                    //     'Report submitted successfully.\n\n' +
-                    //     'Report Number: ' +
-                    //     response.report_number
-                    // );
 
                     showMsg("success", 'Report submitted successfully.');
 
@@ -37,7 +31,7 @@ $(function(){
                 }
             },
 
-            error: function(xhr) {
+            error: function (xhr) {
 
                 if (xhr.status === 422) {
 
@@ -45,23 +39,16 @@ $(function(){
 
                     let message = '';
 
-                    Object.keys(errors).forEach(function(field) {
+                    Object.keys(errors).forEach(function (field) {
 
                         message +=
                             errors[field][0] + '\n';
 
                     });
 
-                    // alert(message);
                     showMsg("error", message);
 
                 } else {
-
-                    // alert(
-                    //     xhr.responseJSON?.message ||
-                    //     'Unable to submit report.'
-                    // );
-                    
                     showMsg("error", xhr.responseJSON?.message ||
                         'Unable to submit report.');
                 }

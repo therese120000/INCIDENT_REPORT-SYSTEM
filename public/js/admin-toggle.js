@@ -5,10 +5,8 @@ $(document).on('click', '.navigation .nav-item', function (e) {
     const contentArea = $('.content-area');
     const clickedButton = $(this);
 
-    // Remove active from all navigation buttons
     $('.navigation .nav-item').removeClass('active');
 
-    // Add active to clicked button
     clickedButton.addClass('active');
 
     switch (this.id) {
