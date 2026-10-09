@@ -11,6 +11,10 @@ use App\Http\Controllers\LocalRegisterController;
 use App\Http\Controllers\LocalReportController;
 use App\Http\Controllers\NotificationController;
 
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 Route::get('/auth/login', function () {
     return view('auth.login');
 })->name('login');
