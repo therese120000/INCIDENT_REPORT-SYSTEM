@@ -85,24 +85,12 @@ class AdminController extends Controller
             ->whereNotNull('resolved_at')
             ->count();
 
-
-        $monthlyReports = (clone $baseQuery)
-            ->select(
-                DB::raw("
-                    CAST(
-                        strftime('%m', submitted_at)
-                        AS INTEGER
-                    ) as month
-                "),
-                DB::raw('COUNT(*) as total')
-            )
-            ->groupBy(
-                DB::raw("strftime('%m', submitted_at)")
-            )
-            ->orderBy(
-                DB::raw("strftime('%m', submitted_at)")
-            )
-            ->get();
+            $monthlyReports = (clone $baseQuery)
+                ->selectRaw('MONTH(submitted_at) as month')
+                ->selectRaw('COUNT(*) as total')
+                ->groupByRaw('MONTH(submitted_at)')
+                ->orderByRaw('MONTH(submitted_at)')
+                ->get();
 
 
         /*
