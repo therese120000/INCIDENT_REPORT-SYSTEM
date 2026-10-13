@@ -808,57 +808,6 @@ td {
 
 }
 
-@media (max-width: 700px) {
-
-    :root {
-        --sidebar-width: 70px;
-    }
-
-    .sidebar {
-        padding: 15px 10px;
-    }
-
-    .community-name,
-    .lui-nav-item span:not(.nav-icon) {
-        display: none;
-    }
-
-    .sidebar-header {
-        justify-content: center;
-    }
-
-    .lui-nav-item {
-        justify-content: center;
-        padding: 13px 5px;
-    }
-
-    .main-content {
-        width: calc(100% - 70px);
-
-        margin-left: 70px;
-    }
-
-    .top-header {
-        padding: 0 20px;
-    }
-
-    .user-info {
-        display: none;
-    }
-
-    .localui-content-area {
-        padding: 20px;
-    }
-
-    .stats-container {
-        grid-template-columns: 1fr;
-    }
-
-    .history-tools {
-        grid-template-columns: 1fr;
-    }
-
-}
 
 .logout-form {
     margin: 0;
@@ -872,4 +821,729 @@ td {
     font: inherit;
     text-align: left;
     cursor: pointer;
+}
+
+/* =========================================
+   RESPONSIVE DASHBOARD
+========================================= */
+
+html {
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.local-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.main-content {
+    min-width: 0;
+    min-height: 100vh;
+    height: auto;
+}
+
+.main-content .top-header {
+    min-height: 90px;
+    height: auto;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.main-content .localui-content-area {
+    min-height: calc(100vh - 90px);
+    height: auto;
+    overflow: visible;
+    padding: 30px 35px;
+}
+
+.stats-container {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stat-card {
+    min-width: 0;
+}
+
+.stat-card > div:last-child {
+    min-width: 0;
+}
+
+.stat-card span {
+    line-height: 1.4;
+}
+
+.report-info {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.report-item {
+    gap: 15px;
+}
+
+/* Tablet */
+@media (max-width: 1000px) {
+    .stats-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .main-content .localui-content-area {
+        padding: 24px;
+    }
+
+    .main-content .top-header {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 700px) {
+
+    html {
+        min-height: 100%;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        min-width: 320px;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: hidden;
+    }
+
+    /* =====================================
+       MAIN CONTAINER
+    ===================================== */
+
+    .local-container {
+        display: block;
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding-bottom: calc(76px + env(safe-area-inset-bottom));
+    }
+
+    /* =====================================
+       MOBILE BOTTOM NAVIGATION
+    ===================================== */
+
+    .sidebar {
+        position: fixed;
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+
+        width: 100%;
+        height: calc(72px + env(safe-area-inset-bottom));
+        min-height: 0;
+
+        padding: 6px 8px env(safe-area-inset-bottom);
+
+        background: var(--white);
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.08);
+
+        z-index: 1000;
+    }
+
+    /* Hide the desktop branding */
+    .sidebar-header {
+        display: none;
+    }
+
+    /* Dashboard, Report, History */
+    .local-navigation {
+        flex: 3 1 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        align-items: stretch;
+        gap: 4px;
+
+        width: auto;
+        min-width: 0;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Logout occupies the fourth equal-width slot */
+    .sidebar-footer {
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: stretch;
+
+        position: static;
+        width: auto;
+        min-width: 0;
+        height: 100%;
+
+        margin: 0;
+        padding: 0;
+        gap: 0;
+    }
+
+    .logout-form {
+        display: flex;
+        flex: 1;
+        align-items: stretch;
+
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Shared navigation item styles */
+    .lui-nav-item,
+    .sidebar .logout-form button.lui-nav-item.logout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 54px;
+
+        padding: 5px 2px;
+
+        border: none;
+        border-radius: 9px;
+        box-shadow: none;
+
+        background: transparent;
+        color: #4A4029;
+
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 1.2;
+        text-align: center;
+        text-decoration: none;
+
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    /* Show icon and label */
+    .lui-nav-item span:not(.nav-icon),
+    .logout-form button span:not(.nav-icon) {
+        display: block;
+        white-space: nowrap;
+    }
+
+    .nav-icon,
+    .logout-form button .nav-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: auto;
+        flex-shrink: 0;
+
+        font-size: 21px;
+        line-height: 1;
+    }
+
+    /* Active navigation */
+    .lui-nav-item.active {
+        background: #FFF3D2;
+        color: #333333;
+        box-shadow: none;
+    }
+
+    .lui-nav-item:hover {
+        background: #FFF8E8;
+    }
+
+    /* Logout styling */
+    .sidebar .logout-form button.lui-nav-item.logout {
+        color: #704040;
+        background: transparent;
+    }
+
+    .sidebar .logout-form button.lui-nav-item.logout:hover {
+        background: #FBEAEA;
+    }
+
+    /* =====================================
+       MAIN CONTENT
+    ===================================== */
+
+    .main-content {
+        display: block;
+
+        width: 100%;
+        min-width: 0;
+        min-height: 100vh;
+        min-height: 100dvh;
+        height: auto;
+
+        margin: 0;
+    }
+
+    /* =====================================
+       TOP HEADER
+    ===================================== */
+
+    .main-content .top-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+
+        width: 100%;
+        min-height: 76px;
+        height: auto;
+
+        padding: 12px;
+        gap: 8px;
+
+        background: var(--white);
+    }
+
+    .main-content .top-header .page-title {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .main-content .top-header .page-title h1 {
+        font-size: 18px;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
+
+    .main-content .top-header .page-title p {
+        margin-top: 4px;
+
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    .main-content .top-header .header-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        flex-shrink: 0;
+        gap: 8px;
+        margin-left: auto;
+    }
+
+    .notification-wrapper,
+    .user-profile {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .notification-btn,
+    .user-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+
+        flex-shrink: 0;
+    }
+
+    .user-profile {
+        gap: 0;
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    /* =====================================
+       CONTENT AREA
+    ===================================== */
+
+    .main-content .localui-content-area {
+        width: 100%;
+        min-width: 0;
+
+        min-height: calc(100vh - 76px);
+        min-height: calc(100dvh - 76px);
+
+        height: auto;
+        padding: 16px;
+
+        overflow: visible;
+        background-color: #A6A9B6;
+    }
+
+    .page {
+        display: block;
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* =====================================
+       WELCOME SECTION
+    ===================================== */
+
+    .welcome-section {
+        padding: 22px 18px;
+        margin-bottom: 16px;
+        border-radius: 12px;
+    }
+
+    .welcome-section h2 {
+        font-size: 20px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .welcome-section p {
+        font-size: 12px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        min-height: 44px;
+        padding: 11px 16px;
+        font-size: 13px;
+    }
+
+    /* =====================================
+       STATISTICS
+    ===================================== */
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .stat-card {
+        display: flex;
+        align-items: flex-start;
+
+        min-width: 0;
+        gap: 10px;
+
+        padding: 14px 10px;
+        border-radius: 10px;
+    }
+
+    .stat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+
+        font-size: 17px;
+        border-radius: 8px;
+    }
+
+    .stat-card > div:last-child {
+        min-width: 0;
+    }
+
+    .stat-card span {
+        font-size: 11px;
+        line-height: 1.4;
+        margin-bottom: 5px;
+        overflow-wrap: anywhere;
+    }
+
+    .stat-card strong {
+        font-size: 22px;
+    }
+
+    /* =====================================
+       SECTION CARDS
+    ===================================== */
+
+    .section-card,
+    .form-card {
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: 12px;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+
+    .section-header p {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .text-btn {
+        min-height: 40px;
+        flex-shrink: 0;
+        font-size: 12px;
+    }
+
+    /* =====================================
+       REPORT LIST
+    ===================================== */
+
+    .report-list {
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+    }
+
+    .report-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    .report-info {
+        width: 100%;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .report-info h3 {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .report-info span,
+    .report-info small {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .status {
+        display: inline-block;
+        font-size: 11px;
+    }
+
+    /* =====================================
+       FORMS
+    ===================================== */
+
+    .form-card {
+        width: 100%;
+        max-width: 850px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .history-tools input,
+    .history-tools select {
+        width: 100%;
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    .history-tools {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .form-actions button {
+        flex: 1 1 120px;
+        min-height: 44px;
+    }
+
+    /* =====================================
+       HISTORY TABLE
+    ===================================== */
+
+    .table-container {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        width: 100%;
+        min-width: 600px;
+    }
+
+    /* =====================================
+       NOTIFICATION PANEL
+    ===================================== */
+
+    .notification-panel {
+        position: fixed !important;
+
+        top: 10px;
+        left: 8px !important;
+        right: 8px !important;
+
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+
+        max-height: calc(100dvh - 20px);
+
+        padding: 16px;
+        box-sizing: border-box;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+
+        z-index: 1200;
+    }
+
+    .notification-panel,
+    .notification-panel * {
+        box-sizing: border-box;
+        min-width: 0;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 380px) {
+
+    /* Bottom navigation */
+    .sidebar {
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    .local-navigation {
+        gap: 2px;
+    }
+
+    .sidebar-footer {
+        flex: 1 1 0;
+    }
+
+    .lui-nav-item,
+    .sidebar .logout-form button.lui-nav-item.logout {
+        gap: 3px;
+
+        padding: 5px 1px;
+
+        font-size: 9px;
+        line-height: 1.15;
+    }
+
+    .nav-icon,
+    .logout-form button .nav-icon {
+        font-size: 19px;
+    }
+
+    /* Compact header */
+    .main-content .top-header {
+        padding: 10px 8px;
+        gap: 5px;
+    }
+
+    .main-content .top-header .page-title h1 {
+        font-size: 17px;
+    }
+
+    .main-content .top-header .page-title p {
+        font-size: 10px;
+    }
+
+    .main-content .top-header .header-right {
+        gap: 5px;
+    }
+
+    .notification-btn,
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+    }
+
+    /* Compact page content */
+    .main-content .localui-content-area {
+        padding: 10px;
+    }
+
+    .stats-container {
+        gap: 8px;
+    }
+
+    .stat-card {
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .stat-card strong {
+        font-size: 20px;
+    }
+
+    .welcome-section {
+        padding: 18px 14px;
+    }
+
+    .section-card,
+    .form-card {
+        padding: 12px;
+    }
+
+    .notification-panel {
+        left: 6px !important;
+        right: 6px !important;
+        width: auto !important;
+        padding: 12px;
+    }
 }
