@@ -91,9 +91,9 @@
 
             <!-- WATER LEVEL -->
             <div class="form-group">
-                <label for="waterLevel">Water Level</label>
+                <label for="waterLevel">Water Level <span style="color: #777;"> * Choose what's best for water issues type only</span></label>
 
-                <select id="waterLevel" name="water_level" required>
+                <select id="waterLevel" name="water_level">
                     <option value="">Select water level</option>
                     <option value="LOW">LOW</option>
                     <option value="MODERATE">MODERATE</option>
@@ -116,12 +116,19 @@
 
 
             <!-- PHOTO -->
+            
             <div class="form-group">
                 <label for="photo">
                     Photo / Evidence
                 </label>
 
                 <div class="upload-box">
+
+                    <div class="upload-content">
+                        <span class="upload-icon">📷</span>
+                        <strong>Upload a photo</strong>
+                        <span>JPG, PNG up to 10MB</span>
+                    </div>
 
                     <input
                         type="file"
@@ -130,14 +137,15 @@
                         accept="image/jpeg,image/png,image/jpg"
                     >
 
-                    <div class="upload-content">
-                        <span class="upload-icon">📷</span>
-                        <strong>Upload a photo</strong>
-                        <span>JPG, PNG up to 5MB</span>
-                    </div>
+                    <!-- <div class="selected-file" id="selectedFile">
+                        <span class="file-name" id="fileName">
+                            No file selected
+                        </span>
+                    </div> -->
 
                 </div>
             </div>
+
 
 
             <!-- SUBMIT -->

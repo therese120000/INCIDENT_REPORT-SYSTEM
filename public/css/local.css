@@ -492,16 +492,12 @@ body {
   border: 2px dashed var(--border);
   border-radius: 10px;
   background: var(--background);
-  padding: 25px;
+  padding: 20px;
   text-align: center;
-  position: relative;
-}
-
-.upload-box input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
 .upload-content {
@@ -512,16 +508,21 @@ body {
 }
 
 .upload-icon {
-  font-size: 28px;
+  font-size: 30px;
 }
 
-.upload-content strong {
+.upload-box input[type=file] {
+  display: block;
+  width: 100%;
+  max-width: 350px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+  cursor: pointer;
   font-size: 13px;
-}
-
-.upload-content span:last-child {
-  color: var(--text-light);
-  font-size: 11px;
+  box-sizing: border-box;
 }
 
 /* =========================================

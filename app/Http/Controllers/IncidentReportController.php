@@ -82,7 +82,7 @@ class IncidentReportController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpg,jpeg,png',
-                'max:5120'
+                'max:10240'
             ],
         ]);
 
@@ -239,12 +239,6 @@ class IncidentReportController extends Controller
                 'SUBMISSION'
             );
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | Response
-            |--------------------------------------------------------------------------
-            */
 
             return response()->json([
 

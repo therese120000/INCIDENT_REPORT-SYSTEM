@@ -7,11 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class NotificationController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Get unread notification count
-    |--------------------------------------------------------------------------
-    */
+    
     public function count(Request $request)
     {
         $user = $request->user();
@@ -23,12 +19,6 @@ class NotificationController extends Controller
             ], 401);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | ADMIN
-        |--------------------------------------------------------------------------
-        | Admin only receives/counts new report submissions.
-        */
         if (strtolower($user->role ?? '') === 'admin') {
 
             // $count = DB::table('notifications')
@@ -50,12 +40,6 @@ class NotificationController extends Controller
 
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | LOCAL / RESIDENT
-        |--------------------------------------------------------------------------
-        | Count all unread notifications belonging to this user.
-        */
         else {
 
             $count = DB::table('notifications')
@@ -71,11 +55,6 @@ class NotificationController extends Controller
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Get notifications
-    |--------------------------------------------------------------------------
-    */
     public function index(Request $request)
     {
         $user = $request->user();
@@ -87,11 +66,6 @@ class NotificationController extends Controller
             ], 401);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | ADMIN
-        |--------------------------------------------------------------------------
-        */
         if (strtolower($user->role ?? '') === 'admin') {
 
             // $notifications = DB::table('notifications')
@@ -115,11 +89,6 @@ class NotificationController extends Controller
 
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | LOCAL / RESIDENT
-        |--------------------------------------------------------------------------
-        */
         else {
 
             $notifications = DB::table('notifications')
@@ -135,11 +104,6 @@ class NotificationController extends Controller
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Mark notification as read
-    |--------------------------------------------------------------------------
-    */
     public function markAsRead(Request $request, $id)
     {
         $user = $request->user();
@@ -151,20 +115,11 @@ class NotificationController extends Controller
             ], 401);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Make sure user can only mark THEIR OWN notification as read
-        |--------------------------------------------------------------------------
-        */
         $query = DB::table('notifications')
             ->where('id', $id)
             ->where('user_id', $user->id);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Admin can only interact with SUBMISSION notifications
-        |--------------------------------------------------------------------------
-        */
+        
         if (strtolower($user->role ?? '') === 'admin') {
             $query->where('type', 'SUBMISSION');
         }

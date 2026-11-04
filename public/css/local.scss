@@ -657,53 +657,66 @@ body {
    UPLOAD
 ========================================= */
 
+
 .upload-box {
     border: 2px dashed var(--border);
-
     border-radius: 10px;
-
     background: var(--background);
-
-    padding: 25px;
-
+    padding: 20px;
     text-align: center;
-
-    position: relative;
-}
-
-.upload-box input {
-    position: absolute;
-
-    inset: 0;
-
-    opacity: 0;
-
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 .upload-content {
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     gap: 5px;
 }
 
 .upload-icon {
-    font-size: 28px;
+    font-size: 30px;
 }
 
-.upload-content strong {
+.upload-box input[type="file"] {
+    display: block;
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
     font-size: 13px;
+    box-sizing: border-box;
 }
 
-.upload-content span:last-child {
-    color: var(--text-light);
+// .selected-file {
+//     width: 100%;
+//     max-width: 350px;
+//     padding: 10px;
+//     background: rgba(0, 0, 0, 0.04);
+//     border-radius: 6px;
+//     box-sizing: border-box;
+//     text-align: left;
+// }
 
-    font-size: 11px;
-}
+// .file-name {
+//     display: block;
+//     font-size: 13px;
+//     color: var(--text);
+//     overflow-wrap: anywhere;
+// }
+
+// .file-name.has-file {
+//     color: #16803c;
+//     font-weight: 600;
+// }
+
 
 
 /* =========================================
@@ -873,7 +886,7 @@ body {
     min-width: 0;
 }
 
-.stat-card > div:last-child {
+.stat-card>div:last-child {
     min-width: 0;
 }
 
@@ -1274,7 +1287,7 @@ body {
         border-radius: 8px;
     }
 
-    .stat-card > div:last-child {
+    .stat-card>div:last-child {
         min-width: 0;
     }
 

@@ -24,11 +24,6 @@ class LocalDashboardController extends Controller
             ], 403);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | BASE REPORTS OF LOGGED-IN USER
-        |--------------------------------------------------------------------------
-        */
 
         $userReports = LocalReport::where(
             'user_id',
@@ -36,43 +31,14 @@ class LocalDashboardController extends Controller
         );
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | TOTAL REPORTS
-        |--------------------------------------------------------------------------
-        */
-
         $totalReports = (clone $userReports)->count();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | UNDER REVIEW
-        |--------------------------------------------------------------------------
-        | Report has NOT yet been acknowledged
-        | AND has NOT yet been resolved.
-        |--------------------------------------------------------------------------
-        */
 
         $underReviewReports = (clone $userReports)
             ->whereNull('acknowledged_at')
             ->whereNull('resolved_at')
             ->count();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | IN PROGRESS
-        |--------------------------------------------------------------------------
-        | Check incident_report_updates for IN_PROGRESS.
-        |
-        | whereExists() is used so each report is counted only once,
-        | even if it has multiple update records.
-        |
-        | resolved_at IS NULL prevents already-resolved reports
-        | from being counted as in progress.
-        |--------------------------------------------------------------------------
-        */
 
         $inProgressReports = (clone $userReports)
             ->whereNull('resolved_at')
@@ -92,22 +58,10 @@ class LocalDashboardController extends Controller
             ->count();
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | RESOLVED
-        |--------------------------------------------------------------------------
-        */
-
         $resolvedReports = (clone $userReports)
             ->whereNotNull('resolved_at')
             ->count();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | CURRENT WEEK
-        |--------------------------------------------------------------------------
-        */
 
         $weekStart = Carbon::now('Asia/Manila')
             ->startOfWeek(Carbon::MONDAY);
@@ -115,12 +69,6 @@ class LocalDashboardController extends Controller
         $weekEnd = Carbon::now('Asia/Manila')
             ->endOfWeek(Carbon::SUNDAY);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | RECENT REPORTS - CURRENT WEEK
-        |--------------------------------------------------------------------------
-        */
 
         $recentReports = LocalReport::with('incidentType')
             ->where('user_id', $user->id)
@@ -132,23 +80,11 @@ class LocalDashboardController extends Controller
             ->get();
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | ALL REPORTS
-        |--------------------------------------------------------------------------
-        */
-
         $allReports = LocalReport::with('incidentType')
             ->where('user_id', $user->id)
             ->orderByDesc('created_at')
             ->get();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | RETURN JSON
-        |--------------------------------------------------------------------------
-        */
 
         return response()->json([
 

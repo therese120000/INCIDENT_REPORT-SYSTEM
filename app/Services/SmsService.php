@@ -64,12 +64,6 @@ class SmsService
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Get user's contact number
-        |--------------------------------------------------------------------------
-        */
-
         $phoneNumber =
             $this->formatPhilippineNumber(
                 $user->contact_number
