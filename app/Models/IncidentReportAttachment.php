@@ -17,7 +17,12 @@ class IncidentReportAttachment extends Model
         'file_path',
         'file_type',
         'attachment_type',
+        'file_data',
         'created_at',
+    ];
+
+    protected $hidden = [
+        'file_data',
     ];
 
     public function report()

@@ -159,22 +159,14 @@ $(function () {
     );
 
 
+
     function loadLocalReportPhoto(report) {
 
-        const attachments =
-            report.attachments || [];
+        const attachments = report.attachments || [];
 
-
-        const photo =
-            attachments.find(function (attachment) {
-
-                return (
-                    attachment.attachment_type ===
-                    'PHOTO'
-                );
-
-            });
-
+        const photo = attachments.find(function (attachment) {
+            return attachment.attachment_type === 'PHOTO';
+        });
 
         if (!photo) {
 
@@ -182,26 +174,31 @@ $(function () {
                 .hide()
                 .attr('src', '');
 
-            $('#localNoReportPhoto')
-                .show();
+            $('#localNoReportPhoto').show();
 
             return;
         }
 
-
-        const photoUrl =
-            '/storage/' +
-            photo.file_path;
-
+        // Fetch the image from the SQLite BLOB endpoint.
+        const photoUrl = '/attachments/' + photo.id;
 
         $('#localModalReportPhoto')
+            .off('error')
             .attr('src', photoUrl)
+            .on('error', function () {
+
+                $(this)
+                    .hide()
+                    .attr('src', '');
+
+                $('#localNoReportPhoto').show();
+
+            })
             .show();
 
-        $('#localNoReportPhoto')
-            .hide();
-
+        $('#localNoReportPhoto').hide();
     }
+
 
 
     function loadLocalReportUpdates(updates) {
@@ -248,8 +245,8 @@ $(function () {
 
                         <p>
                             ${escapeHtml(
-                                update.message || '-'
-                            )}
+                update.message || '-'
+            )}
                         </p>
 
                     </div>
@@ -263,8 +260,8 @@ $(function () {
 
                         <p>
                             ${escapeHtml(
-                                update.action_taken || '-'
-                            )}
+                update.action_taken || '-'
+            )}
                         </p>
 
                     </div>

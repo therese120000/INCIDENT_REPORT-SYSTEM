@@ -11,6 +11,8 @@ use App\Http\Controllers\LocalRegisterController;
 use App\Http\Controllers\LocalReportController;
 use App\Http\Controllers\NotificationController;
 
+use App\Http\Controllers\IncidentReportAttachmentController;
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -165,3 +167,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 
 });
+
+Route::middleware('auth')->get(
+    '/attachments/{id}',
+    [IncidentReportAttachmentController::class, 'show']
+)->name('attachments.show');

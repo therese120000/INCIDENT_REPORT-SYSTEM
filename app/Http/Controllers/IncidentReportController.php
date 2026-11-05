@@ -21,7 +21,8 @@ class IncidentReportController extends Controller
         $reports = IncidentReport::with([
             'user',
             'incidentType',
-            'attachments'
+            // 'attachments'
+            'attachments:id,report_id,uploaded_by,file_name,file_path,file_type,attachment_type,created_at'
         ])
         ->latest('submitted_at')
         ->get();
@@ -154,45 +155,120 @@ class IncidentReportController extends Controller
                     'report_number' => $reportNumber
                 ]);
 
+                // if ($request->hasFile('photo')) {
+
+                //     $file =
+                //         $request->file('photo');
+
+                //     $fileName =
+                //         time() . '_' .
+                //         $file->getClientOriginalName();
+
+                //     // $filePath =
+                //     //     $file->store(
+                //     //         'incident_reports',
+                //     //         'public'
+                //     //     );
+
+                //     $fileData = file_get_contents(
+                //         $file->getRealPath()
+                //     );
+
+
+                //     IncidentReportAttachment::create([
+
+                //         'report_id' =>
+                //             $report->id,
+
+                //         'uploaded_by' =>
+                //             $user->id,
+
+                //         'file_name' =>
+                //             $fileName,
+
+                //         // 'file_path' =>
+                //         //     $filePath,
+
+                //         'file_path' => null,
+
+                //         'file_type' =>
+                //             $file->getClientMimeType(),
+
+                //         'attachment_type' =>
+                //             'PHOTO',
+
+                //         // 'file_data' => $fileData,
+
+                //         'created_at' =>
+                //             now(),
+                //     ]);
+                    
+                // }
+
                 if ($request->hasFile('photo')) {
 
-                    $file =
-                        $request->file('photo');
+                    $file = $request->file('photo');
 
-                    $fileName =
-                        time() . '_' .
+                    if (!$file->isValid()) {
+                        throw new \RuntimeException(
+                            'Uploaded image is not valid: ' . $file->getErrorMessage()
+                        );
+                    }
+
+                    // Read the image's actual binary contents.
+                    $fileData = file_get_contents($file->getRealPath());
+
+                    if ($fileData === false || strlen($fileData) === 0) {
+                        throw new \RuntimeException(
+                            'Unable to read the uploaded image data.'
+                        );
+                    }
+
+                    $fileName = time() . '_' .
                         $file->getClientOriginalName();
 
-                    $filePath =
-                        $file->store(
-                            'incident_reports',
-                            'public'
-                        );
-
-
-                    IncidentReportAttachment::create([
-
-                        'report_id' =>
-                            $report->id,
-
-                        'uploaded_by' =>
-                            $user->id,
-
-                        'file_name' =>
-                            $fileName,
-
-                        'file_path' =>
-                            $filePath,
-
-                        'file_type' =>
-                            $file->getClientMimeType(),
-
-                        'attachment_type' =>
-                            'PHOTO',
-
-                        'created_at' =>
-                            now(),
+                    $attachment = IncidentReportAttachment::create([
+                        'report_id' => $report->id,
+                        'uploaded_by' => $user->id,
+                        'file_name' => $fileName,
+                        'file_path' => '',
+                        'file_type' => $file->getMimeType(),
+                        'attachment_type' => 'PHOTO',
+                        'created_at' => now(),
                     ]);
+
+                    $connection = DB::connection();
+
+                    $statement = $connection->getPdo()->prepare(
+                        'UPDATE incident_report_attachments
+                        SET file_data = ?
+                        WHERE id = ?'
+                    );
+
+                    $statement->bindValue(
+                        1,
+                        $fileData,
+                        \PDO::PARAM_LOB
+                    );
+
+                    $statement->bindValue(
+                        2,
+                        $attachment->id,
+                        \PDO::PARAM_INT
+                    );
+
+                    $statement->execute();
+
+                    // Verify that SQLite actually stored the image.
+                    $storedSize = DB::table('incident_report_attachments')
+                        ->where('id', $attachment->id)
+                        ->value(DB::raw('length(file_data)'));
+
+                    if (!$storedSize || $storedSize <= 0) {
+                        throw new \RuntimeException(
+                            'Image BLOB was not successfully stored in SQLite.'
+                        );
+                    }
                 }
 
                 Notification::create([
@@ -506,7 +582,8 @@ class IncidentReportController extends Controller
         $report = IncidentReport::with([
             'user',
             'incidentType',
-            'attachments',
+            // 'attachments',
+            'attachments:id,report_id,uploaded_by,file_name,file_path,file_type,attachment_type,created_at',
             'updates.user'
         ])->findOrFail($id);
 
@@ -521,7 +598,8 @@ class IncidentReportController extends Controller
         $report = IncidentReport::with([
             'user',
             'incidentType',
-            'attachments',
+            // 'attachments',
+            'attachments:id,report_id,uploaded_by,file_name,file_path,file_type,attachment_type,created_at',
             'updates.user'
         ])->findOrFail($id);
 

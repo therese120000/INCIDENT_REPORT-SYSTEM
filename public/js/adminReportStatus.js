@@ -163,20 +163,11 @@ $(function () {
 
     function loadAdminReportPhoto(report) {
 
-        const attachments =
-            report.attachments || [];
+        const attachments = report.attachments || [];
 
-
-        const photo =
-            attachments.find(function (attachment) {
-
-                return (
-                    attachment.attachment_type ===
-                    'PHOTO'
-                );
-
-            });
-
+        const photo = attachments.find(function (attachment) {
+            return attachment.attachment_type === 'PHOTO';
+        });
 
         if (!photo) {
 
@@ -184,25 +175,24 @@ $(function () {
                 .hide()
                 .attr('src', '');
 
-            $('#noReportPhoto')
-                .show();
+            $('#noReportPhoto').show();
 
             return;
         }
 
-
-        const photoUrl =
-            '/storage/' +
-            photo.file_path;
-
-
         $('#modalReportPhoto')
-            .attr('src', photoUrl)
+            .off('error')
+            .attr('src', '/attachments/' + photo.id)
+            .on('error', function () {
+
+                $(this).hide().attr('src', '');
+
+                $('#noReportPhoto').show();
+
+            })
             .show();
 
-        $('#noReportPhoto')
-            .hide();
-
+        $('#noReportPhoto').hide();
     }
 
 
@@ -250,8 +240,8 @@ $(function () {
 
                         <p>
                             ${escapeHtml(
-                                update.message || '-'
-                            )}
+                update.message || '-'
+            )}
                         </p>
 
                     </div>
@@ -264,8 +254,8 @@ $(function () {
 
                         <p>
                             ${escapeHtml(
-                                update.action_taken || '-'
-                            )}
+                update.action_taken || '-'
+            )}
                         </p>
 
                     </div>
@@ -443,7 +433,7 @@ $(function () {
 
                     _token:
                         $('meta[name="csrf-token"]')
-                        .attr('content'),
+                            .attr('content'),
 
                     status:
                         status,
